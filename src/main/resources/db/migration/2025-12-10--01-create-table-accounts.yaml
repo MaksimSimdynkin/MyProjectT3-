@@ -1,41 +1,38 @@
 databaseChangeLog:
   - changeSet:
-      id: 2025-12-10--02-create-table-users
+      id: 2025-12-10--03-create-table-accounts
       author: Simdyankin Maksim
       changes:
         - createTable:
-            tableName: users
+            tableName: accounts
             columns:
               - column:
                   name: id
-                  type: UUID
+                  type: uuid
                   constraints:
                     primaryKey: true
               - column:
-                  name: account_id
-                  type: UUID
+                  name: username
+                  type: varchar(50)
                   constraints:
                     nullable: false
                     unique: true
               - column:
-                  name: first_name
-                  type: VARCHAR(50)
+                  name: password
+                  type: VARCHAR(100)
                   constraints:
                     nullable: false
               - column:
-                  name: last_name
-                  type: VARCHAR(50)
+                  name: role
+                  type: VARCHAR(20)
                   constraints:
                     nullable: false
               - column:
-                  name: age
-                  type: integer
-              - column:
-                  name: phone
-                  type: VARCHAR(20)
-              - column:
-                  name: city
-                  type: VARCHAR(20)
+                  name: enabled
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
               - column:
                   name: created_at
                   type: TIMESTAMPTZ
@@ -48,6 +45,6 @@ databaseChangeLog:
                     nullable: false
 
         - sql: |
-            ALTER TABLE users
-            ADD CONSTRAINT chk_age_values
-            CHECK (age IN ("age >= 18 AND age <= 120"));
+            ALTER TABLE cards
+            ADD CONSTRAINT chk_role_name_values
+            CHECK (status IN ('USER', 'ADMIN'));
