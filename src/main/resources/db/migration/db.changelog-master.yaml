@@ -1,7 +1,11 @@
 databaseChangeLog:
   - include:
-      file: 2025-12-10--01-create-table-cards.yaml
+      file: 2025-12-10--01-create-table-accounts.yaml
       relativeToChangelogFile: true
   - include:
-      file: 2025-12-10--02-create-table-users.yaml
+        file: 2025-12-10--02-create-table-users.yaml
+        relativeToChangelogFile: true
+  - include:
+      file: 2025-12-10--03-create-table-cards.yaml
       relativeToChangelogFile: true
+
