@@ -11,6 +11,7 @@ databaseChangeLog:
                   type: UUID
                   constraints:
                     primaryKey: true
+                    nullable: false
               - column:
                   name: account_id
                   type: UUID
@@ -29,25 +30,32 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: age
-                  type: integer
+                  type: INTEGER
               - column:
                   name: phone
                   type: VARCHAR(20)
               - column:
                   name: city
-                  type: VARCHAR(20)
+                  type: VARCHAR(100)
               - column:
                   name: created_at
-                  type: TIMESTAMPTZ
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
               - column:
                   name: updated_at
-                  type: TIMESTAMPTZ
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
 
         - sql: |
             ALTER TABLE users
+            ADD CONSTRAINT fk_users_accounts
+            FOREIGN KEY (account_id)
+            REFERENCES accounts(id)
+            ON DELETE CASCADE;
+
+        - sql: |
+            ALTER TABLE users
             ADD CONSTRAINT chk_age_values
-            CHECK (age IN ("age >= 18 AND age <= 120"));
+            CHECK (age >= 18 AND age <= 120);

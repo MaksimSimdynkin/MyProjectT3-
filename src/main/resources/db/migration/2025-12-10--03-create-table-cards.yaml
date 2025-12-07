@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2025-12-10--01-create-table-cards
+      id: 2025-12-10--03-create-table-cards
       author: Simdyankin Maksim
       changes:
         - createTable:
@@ -11,27 +11,26 @@ databaseChangeLog:
                   type: UUID
                   constraints:
                     primaryKey: true
+                    nullable: false
               - column:
                   name: user_id
                   type: UUID
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_user_cards
-                    references: users(user_id)
               - column:
                   name: number_cards
-                  type: varchar(20)
+                  type: VARCHAR(20)
                   constraints:
                     nullable: false
                     unique: true
               - column:
                   name: username
-                  type: varchar(50)
+                  type: VARCHAR(50)
                   constraints:
                     nullable: false
               - column:
                   name: validity_period
-                  type: TIMESTAMPTZ
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
               - column:
@@ -41,21 +40,29 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: balance
-                  type: VARCHAR(20)
+                  type: DECIMAL(15, 2)
+                  defaultValueNumeric: 0.00
                   constraints:
                     nullable: false
               - column:
                   name: created_at
-                  type: TIMESTAMPTZ
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
               - column:
                   name: updated_at
-                  type: TIMESTAMPTZ
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
 
         - sql: |
             ALTER TABLE cards
-            ADD CONSTRAINT chk_cards_name_values
+            ADD CONSTRAINT fk_cards_users
+            FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE;
+
+        - sql: |
+            ALTER TABLE cards
+            ADD CONSTRAINT chk_cards_status_values
             CHECK (status IN ('ACTIVE', 'BLOCKED', 'EXPIRED'));
