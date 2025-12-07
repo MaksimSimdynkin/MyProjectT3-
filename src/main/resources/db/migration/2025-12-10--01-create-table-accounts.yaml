@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 2025-12-10--03-create-table-accounts
+      id: 2025-12-10--01-create-table-accounts
       author: Simdyankin Maksim
       changes:
         - createTable:
@@ -8,18 +8,19 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: uuid
+                  type: UUID
                   constraints:
                     primaryKey: true
+                    nullable: false
               - column:
                   name: username
-                  type: varchar(50)
+                  type: VARCHAR(50)
                   constraints:
                     nullable: false
                     unique: true
               - column:
                   name: password
-                  type: VARCHAR(100)
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
@@ -35,16 +36,16 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: created_at
-                  type: TIMESTAMPTZ
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
               - column:
                   name: updated_at
-                  type: TIMESTAMPTZ
+                  type: TIMESTAMP
                   constraints:
                     nullable: false
 
         - sql: |
-            ALTER TABLE cards
+            ALTER TABLE accounts
             ADD CONSTRAINT chk_role_name_values
-            CHECK (status IN ('USER', 'ADMIN'));
+            CHECK (role IN ('USER', 'ADMIN'));
