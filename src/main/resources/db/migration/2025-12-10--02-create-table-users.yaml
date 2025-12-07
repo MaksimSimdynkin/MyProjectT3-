@@ -1,0 +1,35 @@
+databaseChangelog:
+  - changeSet:
+      id: 2025-12-10--02-create-table-users
+      author: Simdyankin Maksim
+      changes:
+        - createTable:
+            schemaName: bank_rest
+            tableName: users
+            ifNotExists: true
+            columns:
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: cards
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cards_users
+                    references: cards(card_id)
+              - column:
+                  name: user
+                  type: SMALLINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: VARCHAR(20)

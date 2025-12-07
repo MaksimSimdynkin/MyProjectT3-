@@ -1,0 +1,54 @@
+databaseChangelog:
+  - changeSet:
+      id: 2025-12-10--01-create-table-cards
+      author: Simdyankin Maksim
+      changes:
+        - createTable:
+            schemaName: bank_rest
+            tableName: cards
+            ifNotExists: true
+            columns:
+              - column:
+                  name: card_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_cards
+                    references: users(user_id)
+              - column:
+                  name: number_cards
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: user
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: validity_period
+                  type: TIMESTAMPTZ
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: balance
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+
+        - sql: |
+            ALTER TABLE "bank_rest".cards
+            ADD CONSTRAINT chk_cards_name_values
+            CHECK (status IN ('ACTIVE', 'BLOCKED', 'EXPIRED'));
